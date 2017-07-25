@@ -1755,12 +1755,16 @@ String sensorDHT() {
 	while ((i++ < 5) && (s == "")) {
 		h = dht.readHumidity(); //Read Humidity
 		t = dht.readTemperature(); //Read Temperature
-		if (isnan(t) || isnan(h)) {
+		if (isnan(t) || isnan(h)) ||
+		   ((t < -40) || (t > 125)) || // values outside of sensor specification
+			 ((h <   0) || (h > 100)) {
 			delay(100);
 			h = dht.readHumidity(true); //Read Humidity
 			t = dht.readTemperature(false, true); //Read Temperature
 		}
-		if (isnan(t) || isnan(h)) {
+		if (isnan(t) || isnan(h)) ||
+		   ((t < -40) || (t > 125)) || // values outside of sensor specification
+			 ((h <   0) || (h > 100)) {
 			debug_out(F("DHT22 couldn't be read"), DEBUG_ERROR, 1);
 		} else {
 			debug_out(F("Humidity    : "), DEBUG_MIN_INFO, 0);
